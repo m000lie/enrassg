@@ -5,8 +5,8 @@
 /contentModel.xml
 /modules.xml
 /projectSettingsUpdater.xml
-/.idea.assignment.iml
-/.idea
+/assignment/.idea.assignment.iml
+.idea/
 # Editor-based HTTP Client requests
 /httpRequests/
 # Datasource local storage ignored files
