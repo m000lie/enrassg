@@ -1,0 +1,15 @@
+/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/bin/Debug/net6.0/assignment
+/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/bin/Debug/net6.0/assignment.deps.json
+/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/bin/Debug/net6.0/assignment.runtimeconfig.json
+/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/bin/Debug/net6.0/assignment.dll
+/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/bin/Debug/net6.0/assignment.pdb
+/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/obj/Debug/net6.0/assignment.csproj.AssemblyReference.cache
+/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/obj/Debug/net6.0/assignment.GeneratedMSBuildEditorConfig.editorconfig
+/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/obj/Debug/net6.0/assignment.AssemblyInfoInputs.cache
+/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/obj/Debug/net6.0/assignment.AssemblyInfo.cs
+/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/obj/Debug/net6.0/assignment.csproj.CoreCompileInputs.cache
+/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/obj/Debug/net6.0/assignment.dll
+/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/obj/Debug/net6.0/refint/assignment.dll
+/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/obj/Debug/net6.0/assignment.pdb
+/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/obj/Debug/net6.0/assignment.genruntimeconfig.cache
+/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/obj/Debug/net6.0/ref/assignment.dll
