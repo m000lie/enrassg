@@ -8,24 +8,26 @@
     "net6.0": []
   },
   "packageFolders": {
-    "/Users/pimp/.nuget/packages/": {}
+    "C:\\Users\\mooolie\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/assignment.csproj",
+      "projectUniqueName": "C:\\Users\\mooolie\\Downloads\\enrassg\\assignment\\assignment.csproj",
       "projectName": "assignment",
-      "projectPath": "/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/assignment.csproj",
-      "packagesPath": "/Users/pimp/.nuget/packages/",
-      "outputPath": "/Users/pimp/NP/SEM2/prg2/Assignment/enrassg/assignment/obj/",
+      "projectPath": "C:\\Users\\mooolie\\Downloads\\enrassg\\assignment\\assignment.csproj",
+      "packagesPath": "C:\\Users\\mooolie\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mooolie\\Downloads\\enrassg\\assignment\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/pimp/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\mooolie\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -59,7 +61,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.417/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
