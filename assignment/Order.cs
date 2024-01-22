@@ -138,11 +138,7 @@ internal class Order
 				Console.WriteLine("Invalid choice");
 				break;
 		}
-
-
-
-
-
+		
 	}
 
 	public double CalculateTotal()
