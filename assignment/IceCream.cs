@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿// ID: S10255981, S10257966
+// Name: Rainnen, Ethan
+using System.Diagnostics;
 
 namespace assignment 
 { 

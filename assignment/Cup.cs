@@ -1,5 +1,6 @@
 namespace assignment;
-
+// ID: S10255981, S10257966
+// Name: Rainnen, Ethan
 internal class Cup : IceCream
 {
     public Cup()

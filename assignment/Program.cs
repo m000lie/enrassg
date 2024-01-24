@@ -1,3 +1,5 @@
+// ID: S10255981, S10257966
+// Name: Rainnen, Ethan
 using assignment;
 
 List<Customer> customerList = new List<Customer>();
