@@ -1,8 +1,19 @@
 ﻿using System.Diagnostics;
 
+
 namespace assignment 
 { 
     abstract class IceCream
+
+abstract class IceCream
+{
+    private string option;
+    private int scoops;
+    private List<Flavour> flavours = new List<Flavour>();
+    private List<Topping> toppings = new List<Topping>();
+
+    public string Option
+
     {
         private string option;
         private int scoops;
