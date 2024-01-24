@@ -1,3 +1,5 @@
+using assignment
+
 string File = "customer.csv";
 
 using (StreamReader sr = new StreamReader(File))
