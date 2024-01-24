@@ -1,22 +1,25 @@
-﻿class Flavour
+namespace assignment
 {
-    private string type;
-    private bool premium;
-    private int quantity;
-    public string Type { get; set; }
-    public bool Premium { get; set; }
-    public int Quantity { get; set; }
-
-    public Flavour() { }
-    public Flavour(string type, bool premium, int quantity)
+    abstract class Flavour
     {
-        Type = type;
-        Premium = premium;
-        Quantity = quantity;
-    }
+        private string type;
+        private bool premium;
+        private int quantity;
+        public string Type { get; set; }
+        public bool Premium { get; set; }
+        public int Quantity { get; set; }
 
-    public override string ToString()
-    {
-        return base.ToString();
+        public Flavour() { }
+        public Flavour(string type, bool premium, int quantity)
+        {
+            Type = type;
+            Premium = premium;
+            Quantity = quantity;
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }
