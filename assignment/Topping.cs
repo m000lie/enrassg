@@ -1,6 +1,6 @@
 namespace assignment
 {
-    class Topping
+    internal class Topping
     {
         private string type;
         public string Type { get; set; }

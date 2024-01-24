@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/m000lie/Desktop/enrassg/assignment/assignment.csproj": {}
+    "/home/m000lie/enrassg/assignment/assignment.csproj": {}
   },
   "projects": {
-    "/home/m000lie/Desktop/enrassg/assignment/assignment.csproj": {
+    "/home/m000lie/enrassg/assignment/assignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/m000lie/Desktop/enrassg/assignment/assignment.csproj",
+        "projectUniqueName": "/home/m000lie/enrassg/assignment/assignment.csproj",
         "projectName": "assignment",
-        "projectPath": "/home/m000lie/Desktop/enrassg/assignment/assignment.csproj",
+        "projectPath": "/home/m000lie/enrassg/assignment/assignment.csproj",
         "packagesPath": "/home/m000lie/.nuget/packages/",
-        "outputPath": "/home/m000lie/Desktop/enrassg/assignment/obj/",
+        "outputPath": "/home/m000lie/enrassg/assignment/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/m000lie/.nuget/NuGet/NuGet.Config"
