@@ -1,53 +1,71 @@
 ﻿using System.Diagnostics;
 
-abstract class IceCream
-{
-    private string option;
-    private int scoops;
-    private List<Flavour> flavours { get; set; } = new List<Flavour>();
-    private List<Topping> toppings { get; set; } = new List<Topping>();
-
-    public string Option
+namespace assignment 
+{ 
+    abstract class IceCream
     {
-        get { return option; }
-        set { option = value; }
+        private string option;
+        private int scoops;
+
+        public string Option { get; set; }
+        public int Scoops { get; set; }
+        private List<Flavour> Flavours { get; set; } = new List<Flavour>();
+        private List<Topping> Toppings { get; set; } = new List<Topping>();
+
+        public IceCream() { }
+        public IceCream(string option, int scoops, List<Flavour> flavours, List<Topping> toppings)
+        {
+            Option = option;
+            Scoops = scoops;
+            Flavours = flavours;
+            Toppings = toppings;
+        }
+
+        public abstract double CalculatePrice();
     }
 
-    public int Scoops
+    class Cup : IceCream
     {
-        get { return scoops; }
-        set { scoops = value; }
+        public Cup() { }
+        public Cup(string option, int scoops, List<Flavour> flavours, List<Topping> toppings)
+        {
+            Option = option;
+            Scoops = scoops;
+            Flavours = flavours;
+            Toppings = toppings;
+        }
+
+        public override double CalculatePrice() { };
     }
 
-
-    public List<Flavour> Flavours
+    class Cone : IceCream
     {
-        get { return flavours; }
-        set { flavours = value; }
+        private bool dipped;
+        public bool Dipped { get; set; }
+
+        public Cone() { }
+        public Cone(string option, int scoops, List<Flavour> flavours, List<Topping> toppings, bool dipped)
+        {
+            Option = option;
+            Scoops = scoops;
+            Flavours = flavours;
+            Toppings = toppings;
+            Dipped = dipped;
+        }
     }
 
-    public List<Topping> Toppings
+    class Waffle : IceCream
     {
-        get { return toppings; }
-        set { toppings = value; }
+        private string waffleFlavour;
+        public string WaffleFlavour { get; set; }
+        public Waffle() { }
+        public Waffle(string option, int scoops, List<Flavour> flavours, List<Topping> toppings, string waffleFlavour)
+        {
+            Option = option;
+            Scoops = scoops;
+            Flavours = flavours;
+            Toppings = toppings;
+            WaffleFlavour = waffleFlavour;
+        }
     }
-
-    public IceCream()
-    {
-    }
-
-    public IceCream(string option, int scoops, List<Flavour> flavours, List<Topping> toppings)
-    {
-        Option = option;
-        Scoops = scoops;
-        Flavours = flavours;
-        Toppings = toppings;
-    }
-
-    public abstract double CalculatePrice();
 }
-
-
-
-
-
