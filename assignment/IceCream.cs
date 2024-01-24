@@ -4,8 +4,8 @@ abstract class IceCream
 {
     private string option;
     private int scoops;
-    private List<Flavour> flavours { get; set; } = new List<Flavour>();
-    private List<Topping> toppings { get; set; } = new List<Topping>();
+    private List<Flavour> flavours = new List<Flavour>();
+    private List<Topping> toppings = new List<Topping>();
 
     public string Option
     {
