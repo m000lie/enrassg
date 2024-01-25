@@ -22,5 +22,8 @@ using (StreamReader sr = new StreamReader(File))
         PointCard pc = new PointCard(Convert.ToInt32(marks[4]), Convert.ToInt32(marks[5]), marks[3]);
         Customer c = new Customer(marks[0], Convert.ToInt32(marks[1]), Convert.ToDateTime(marks[2]), null, null, pc);
         customerList.Add(c);
+        // print details of customer
+        Console.WriteLine("{0,-10}  {1,-10}   {2,-10}  {3,-10}  {4,-10}  {5,-10}",
+            marks[0], marks[1], marks[2], marks[3], marks[4], marks[5]);
     }
 }
