@@ -13,7 +13,7 @@ internal class Order
 	private DateTime timeReceived;
 	private DateTime timeFulfilled;
 	private List<IceCream> iceCreamList = new List<IceCream>();
-	private Dictionary<string, double> flavourList = new Dictionary<string, double>();
+	private Dictionary<string, double> flavourDict = new Dictionary<string, double>();
 	private string path = "flavours.csv";
 	// read flavour data from flavours.csv
 	void ReadFlavourData()
@@ -21,7 +21,7 @@ internal class Order
 		using (StreamReader sr = new StreamReader(path))
 		{
 			string? s = sr.ReadLine(); // read the heading
-			// save headers
+									   // save headers
 			if (s != null)
 			{
 				string[] heading = s.Split(',');
@@ -30,11 +30,11 @@ internal class Order
 			while ((s = sr.ReadLine()) != null)
 			{
 				string[] marks = s.Split(',');
-				flavourList.Add(marks[0], Convert.ToDouble(marks[1]));
+				flavourDict.Add(marks[0], Convert.ToDouble(marks[1]));
 			}
-		}	
+		}
 	}
-	
+
 
 
 
@@ -68,14 +68,17 @@ internal class Order
 
 	public Order()
 	{
-		
+
 	}
 
-	public Order(int id, DateTime timeReceived)
+	public Order(int id, DateTime timeReceived, DateTime timeFulfilled, List<IceCream> iceCreamlist)
 	{
 		Id = id;
 		TimeReceived = timeReceived;
-		
+		timeFulfilled = timeFulfilled;
+		iceCreamList = iceCreamlist;
+
+
 	}
 
 
@@ -107,7 +110,17 @@ internal class Order
 				iceCreamList[index].Flavours.Clear();
 				foreach (string flavour in flavours)
 				{
-					iceCreamList[index].Flavours.Add(new Flavour(flavour, flavourClass[flavour], 1));
+					if (flavourDict[flavour] == 0)
+					{
+						iceCreamList[index].Flavours.Add(new Flavour(flavour, false, 1));
+						break;
+					}
+					else
+					{
+
+						iceCreamList[index].Flavours.Add(new Flavour(flavour, true, 1));
+						break;
+					}
 				}
 
 				break;
@@ -123,7 +136,7 @@ internal class Order
 				break;
 			case 5:
 				Console.WriteLine("Enter new dipped cone: ");
-				
+
 				if (iceCreamList[index] is Cone cone)
 				{
 					cone.Dipped = true;
@@ -143,7 +156,7 @@ internal class Order
 				{
 					Console.WriteLine("Invalid choice");
 				}
-				
+
 				break;
 			case 7:
 				break;
@@ -151,7 +164,7 @@ internal class Order
 				Console.WriteLine("Invalid choice");
 				break;
 		}
-		
+
 	}
 
 	public double CalculateTotal()
