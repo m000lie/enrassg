@@ -13,7 +13,28 @@ internal class Order
 	private DateTime timeReceived;
 	private DateTime timeFulfilled;
 	private List<IceCream> iceCreamList = new List<IceCream>();
-	private Dictionary<string, bool> flavourClass = new Dictionary<string, bool>();
+	private Dictionary<string, double> flavourList = new Dictionary<string, double>();
+	private string path = "flavours.csv";
+	// read flavour data from flavours.csv
+	void ReadFlavourData()
+	{
+		using (StreamReader sr = new StreamReader(path))
+		{
+			string? s = sr.ReadLine(); // read the heading
+			// save headers
+			if (s != null)
+			{
+				string[] heading = s.Split(',');
+			}
+
+			while ((s = sr.ReadLine()) != null)
+			{
+				string[] marks = s.Split(',');
+				flavourList.Add(marks[0], Convert.ToDouble(marks[1]));
+			}
+		}	
+	}
+	
 
 
 
@@ -47,27 +68,17 @@ internal class Order
 
 	public Order()
 	{
-		flavourClass.Add("Vanilla", false);
-		flavourClass.Add("Chocolate", false);
-		flavourClass.Add("Strawberry", false);
-		flavourClass.Add("Durian", true);
-		flavourClass.Add("Ube", true);
-		flavourClass.Add("Sea salt", true);
+		
 	}
 
 	public Order(int id, DateTime timeReceived)
 	{
 		Id = id;
 		TimeReceived = timeReceived;
-		flavourClass.Add("Vanilla", false);
-		flavourClass.Add("Chocolate", false);
-		flavourClass.Add("Strawberry", false);
-		flavourClass.Add("Durian", true);
-		flavourClass.Add("Ube", true);
-		flavourClass.Add("Sea salt", true);
+		
 	}
 
-	// to implement
+
 	public void ModifyIceCream(int index)
 	{
 

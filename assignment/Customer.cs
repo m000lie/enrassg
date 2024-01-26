@@ -34,8 +34,8 @@ namespace assignment
 		}
 		public Order CurrentOrder
 		{
-			get { return currentOrder; }
 			set { currentOrder = value; }
+			get { return currentOrder; }
 		}
 		public List<Order> OrderHistory
 		{
