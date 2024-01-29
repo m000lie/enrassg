@@ -14,9 +14,9 @@ namespace assignment
 		private Order currentOrder;
 		private List<Order> orderHistory = new List<Order>();
 		private PointCard rewards;
+        private string v;
 
-
-		public string Name
+        public string Name
 		{
 			get { return name; }
 			set { name = value; }
@@ -57,12 +57,26 @@ namespace assignment
 			Rewards = rewards;
 		}
 
+
 		// public Order MakeOrder()
 		// {
 		// 	Random rnd = new Random();
 		// 	Order order = new Order(rnd.Next(), DateTime.Now);
 		// 	return order;
 		// }
+
+        public Customer()
+        {
+        }
+
+
+        public Order MakeOrder()
+		{
+			Random rnd = new Random();
+			Order order = new Order(rnd.Next(), DateTime.Now, null, new List<IceCream>());
+			return order;
+		}
+
 
 		public bool IsBirthday()
 		{

@@ -11,7 +11,7 @@ internal class Order
 {
 	private int id;
 	private DateTime timeReceived;
-	private DateTime timeFulfilled;
+	private DateTime? timeFulfilled;
 	private List<IceCream> iceCreamList = new List<IceCream>();
 	private Dictionary<string, bool> flavourClass = new Dictionary<string, bool>();
 
@@ -29,7 +29,7 @@ internal class Order
 		set { timeReceived = value; }
 	}
 
-	public DateTime TimeFulfilled
+	public DateTime? TimeFulfilled
 	{
 		get { return timeFulfilled; }
 		set { timeFulfilled = value; }
@@ -65,7 +65,7 @@ internal class Order
 		initFlavourClass();
 	}
 
-	public Order(int id, DateTime timeReceived, DateTime timeFulfilled, List<IceCream> iceCreamList)
+	public Order(int id, DateTime timeReceived, DateTime? timeFulfilled, List<IceCream> iceCreamList)
 	{
 		Id = id;
 		TimeReceived = timeReceived;
