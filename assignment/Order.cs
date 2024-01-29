@@ -11,7 +11,7 @@ internal class Order
 {
 	private int id;
 	private DateTime timeReceived;
-	private DateTime timeFulfilled;
+	private DateTime? timeFulfilled;
 	private List<IceCream> iceCreamList = new List<IceCream>();
 	private Dictionary<string, bool> flavourClass = new Dictionary<string, bool>();
 
@@ -29,12 +29,18 @@ internal class Order
 		set { timeReceived = value; }
 	}
 
-	public DateTime TimeFulfilled
+	public DateTime? TimeFulfilled
 	{
 		get { return timeFulfilled; }
 		set { timeFulfilled = value; }
 	}
 
+	public List<IceCream> IceCreamList
+	{
+		get { return iceCreamList; }
+		set { iceCreamList = value; }
+	}
+	
 	public void AddIceCream(IceCream iceCream)
 	{
 		iceCreamList.Add(iceCream);
@@ -45,7 +51,7 @@ internal class Order
 		iceCreamList.RemoveAt(index);
 	}
 
-	public Order()
+	private void initFlavourClass()
 	{
 		flavourClass.Add("Vanilla", false);
 		flavourClass.Add("Chocolate", false);
@@ -54,18 +60,20 @@ internal class Order
 		flavourClass.Add("Ube", true);
 		flavourClass.Add("Sea salt", true);
 	}
+	public Order()
+	{
+		initFlavourClass();
+	}
 
-	public Order(int id, DateTime timeReceived)
+	public Order(int id, DateTime timeReceived, DateTime? timeFulfilled, List<IceCream> iceCreamList)
 	{
 		Id = id;
 		TimeReceived = timeReceived;
-		flavourClass.Add("Vanilla", false);
-		flavourClass.Add("Chocolate", false);
-		flavourClass.Add("Strawberry", false);
-		flavourClass.Add("Durian", true);
-		flavourClass.Add("Ube", true);
-		flavourClass.Add("Sea salt", true);
+		TimeFulfilled = timeFulfilled;
+		IceCreamList = iceCreamList;
+		initFlavourClass();
 	}
+	
 
 	// to implement
 	public void ModifyIceCream(int index)
@@ -152,5 +160,15 @@ internal class Order
 			total += iceCream.CalculatePrice();
 		}
 		return total;
+	}
+	
+	public override string ToString()
+	{
+		string s = "";
+		foreach (IceCream iceCream in iceCreamList)
+		{
+			s += iceCream.ToString() + "\n";
+		}
+		return s;
 	}
 }
