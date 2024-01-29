@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ethan\\OneDrive - Ngee Ann Polytechnic\\NP\\SEM 2\\PRG2\\Assessments\\assignment\\assignment\\assignment.csproj",
+      "projectUniqueName": "C:\\Users\\ethan\\Documents\\enrassg\\assignment\\assignment.csproj",
       "projectName": "assignment",
-      "projectPath": "C:\\Users\\ethan\\OneDrive - Ngee Ann Polytechnic\\NP\\SEM 2\\PRG2\\Assessments\\assignment\\assignment\\assignment.csproj",
+      "projectPath": "C:\\Users\\ethan\\Documents\\enrassg\\assignment\\assignment.csproj",
       "packagesPath": "C:\\Users\\ethan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ethan\\OneDrive - Ngee Ann Polytechnic\\NP\\SEM 2\\PRG2\\Assessments\\assignment\\assignment\\obj\\",
+      "outputPath": "C:\\Users\\ethan\\Documents\\enrassg\\assignment\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
