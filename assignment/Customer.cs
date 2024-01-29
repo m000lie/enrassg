@@ -47,11 +47,6 @@ namespace assignment
 			get { return rewards; }
 			set { rewards = value; }
 		}
-		public Customer()
-		{
-
-		}
-
 		public Customer(string name, int memberId, DateTime dob, Order currentOrder, List<Order> orderHistory, PointCard rewards)
 		{
 			Name = name;

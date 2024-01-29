@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/home/m000lie/Desktop/enrassg/assignment/assignment.csproj": {}
+    "C:\\Users\\ethan\\OneDrive - Ngee Ann Polytechnic\\NP\\SEM 2\\PRG2\\Assessments\\assignment\\assignment\\assignment.csproj": {}
   },
   "projects": {
-    "/home/m000lie/Desktop/enrassg/assignment/assignment.csproj": {
+    "C:\\Users\\ethan\\OneDrive - Ngee Ann Polytechnic\\NP\\SEM 2\\PRG2\\Assessments\\assignment\\assignment\\assignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/m000lie/Desktop/enrassg/assignment/assignment.csproj",
+        "projectUniqueName": "C:\\Users\\ethan\\OneDrive - Ngee Ann Polytechnic\\NP\\SEM 2\\PRG2\\Assessments\\assignment\\assignment\\assignment.csproj",
         "projectName": "assignment",
-        "projectPath": "/home/m000lie/Desktop/enrassg/assignment/assignment.csproj",
-        "packagesPath": "/home/m000lie/.nuget/packages/",
-        "outputPath": "/home/m000lie/Desktop/enrassg/assignment/obj/",
+        "projectPath": "C:\\Users\\ethan\\OneDrive - Ngee Ann Polytechnic\\NP\\SEM 2\\PRG2\\Assessments\\assignment\\assignment\\assignment.csproj",
+        "packagesPath": "C:\\Users\\ethan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ethan\\OneDrive - Ngee Ann Polytechnic\\NP\\SEM 2\\PRG2\\Assessments\\assignment\\assignment\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/home/m000lie/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\ethan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,7 +49,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -52,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/6.0.126/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,6 +1,8 @@
+// ID: S10255981, S10257966
+// Name: Rainnen, Ethan
 namespace assignment
 {
-    abstract class Flavour
+    internal class Flavour
     {
         private string type;
         private bool premium;

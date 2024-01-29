@@ -39,7 +39,7 @@ namespace assignment
 			PunchCard = punchCard;
 			Tier = tier;
 		}
-
+	
 		public void AddPoints(int points)
 		{
 			Points += points;
