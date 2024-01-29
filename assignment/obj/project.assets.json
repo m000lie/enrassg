@@ -8,31 +8,24 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\ethan\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/rainnen/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ethan\\OneDrive - Ngee Ann Polytechnic\\NP\\SEM 2\\PRG2\\Assessments\\assignment\\assignment\\assignment.csproj",
+      "projectUniqueName": "/Users/rainnen/Desktop/enrassg/assignment/assignment.csproj",
       "projectName": "assignment",
-      "projectPath": "C:\\Users\\ethan\\OneDrive - Ngee Ann Polytechnic\\NP\\SEM 2\\PRG2\\Assessments\\assignment\\assignment\\assignment.csproj",
-      "packagesPath": "C:\\Users\\ethan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ethan\\OneDrive - Ngee Ann Polytechnic\\NP\\SEM 2\\PRG2\\Assessments\\assignment\\assignment\\obj\\",
+      "projectPath": "/Users/rainnen/Desktop/enrassg/assignment/assignment.csproj",
+      "packagesPath": "/Users/rainnen/.nuget/packages/",
+      "outputPath": "/Users/rainnen/Desktop/enrassg/assignment/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\ethan\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/rainnen/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -66,7 +59,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.418/RuntimeIdentifierGraph.json"
       }
     }
   }

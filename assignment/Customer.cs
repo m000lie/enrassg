@@ -57,12 +57,12 @@ namespace assignment
 			Rewards = rewards;
 		}
 
-		public Order MakeOrder()
-		{
-			Random rnd = new Random();
-			Order order = new Order(rnd.Next(), DateTime.Now);
-			return order;
-		}
+		// public Order MakeOrder()
+		// {
+		// 	Random rnd = new Random();
+		// 	Order order = new Order(rnd.Next(), DateTime.Now);
+		// 	return order;
+		// }
 
 		public bool IsBirthday()
 		{
@@ -78,7 +78,7 @@ namespace assignment
 
 		public override string ToString()
 		{
-			return $"Name: {name}, MemberID: {memberId}, dob: {dob}, CurrentOrder: {currentOrder.Id}, OrderHistory: {orderHistory}, Rewards: {rewards}";
+			return $"Name: {name}, MemberID: {memberId}, dob: {dob}, MembershipStatus: {rewards.Tier}, MembershipPoints: {rewards.Points}, PunchCard: {rewards.PunchCard}";
 		}
 
 	}
