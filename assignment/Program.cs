@@ -3,6 +3,7 @@
 
 using assignment;
 using System.Globalization;
+using System.IO.Enumeration;
 
 
 void DisplayMenu()
@@ -14,6 +15,7 @@ void DisplayMenu()
     Console.WriteLine("[4] Create A Customers Order");
     Console.WriteLine("[5] Display Order Details Of A Customer");
     Console.WriteLine("[6] Modify Order Details");
+    Console.WriteLine("[0] Exit");
     Console.WriteLine("==========================================");
 }
 
@@ -195,7 +197,9 @@ List<Order> WriteOrderHistory()
 List<string> orderHeaders = ReadOrderHistory("orders.csv");
 WriteOrderHistory();
 
-while (true)
+bool exitLoop = false;
+
+while (!exitLoop)
 {
     DisplayMenu();
     Console.Write("Enter a option: ");
@@ -206,19 +210,30 @@ while (true)
     {
         case "0":
             Console.WriteLine("Goodbye! Have A Nice Day");
+            exitLoop = true;
             break;
 
         case "1":
+            /*
             // print headers
             Console.WriteLine("{0,-10}  {1,-10}   {2,-10}  {3,-10}  {4,-10}  {5,-10}",
                 customerHeaders[0], customerHeaders[1], customerHeaders[2], customerHeaders[3], customerHeaders[4],
                 customerHeaders[5]);
 
-            // list all customers
+            //list all customers
             foreach (Customer c in customerList)
             {
                 Console.WriteLine("{0,-10}  {1,-10}   {2,-10}  {3,-16}  {4,-16}  {5,-10}",
                     c.Name, c.MemberId, c.Dob, c.Rewards.Tier, c.Rewards.Points, c.Rewards.PunchCard);
+            }
+
+            break;
+            */
+
+            // List all customers
+            foreach (Customer c in customerList)
+            {
+                Console.WriteLine(c.ToString());
             }
 
             break;
@@ -229,6 +244,9 @@ while (true)
             break;
 
         case "3":
+            
+            string filename = "customers.csv";
+
             Console.Write("Enter customer name: ");
             string name = Console.ReadLine();
 
@@ -238,44 +256,50 @@ while (true)
             Console.Write("Enter customer date of birth (dd-mm-yyyy): ");
             DateTime Dob = DateTime.ParseExact(Console.ReadLine(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-            Console.WriteLine("Enter customer membership tier: ");
-            string Tier = Console.ReadLine();
+            Console.Write("Enter customer membership tier: ");
+            string tier = Console.ReadLine();
 
-            Console.WriteLine("Enter customer membership points: ");
-            int Points = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Enter customer membership points: ");
+            int points = Convert.ToInt32(Console.ReadLine());
 
-            Console.WriteLine("Enter customer punchcard:");
-            int PunchCard = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Enter customer punch card:");
+            int punchCard = Convert.ToInt32(Console.ReadLine());
 
             // Create a new customer object with the given information
             Customer customer = new Customer
             {
                 Name = name,
                 MemberId = memberID,
-                Dob = Dob
+                Dob = Dob,
+                Rewards = new PointCard
+                {
+                    Tier = tier,
+                    Points = points,
+                    PunchCard = punchCard
+                }
             };
-
-            // Create a new PointCard object
-            PointCard pointCard = new PointCard
-            {
-                Tier = Tier,
-                Points = Points,
-                PunchCard = PunchCard,
-            };
-
-            // Assign the PointCard object to the customer
-            customer.Rewards = pointCard;
 
             // Append the customer information to the customers.csv file
-            string customerInfo =
-                $"{customer.Name},{customer.MemberId},{customer.Dob.ToString("dd-MM-yyyy")},{customer.Rewards}";
-            using (StreamWriter sw = new StreamWriter("customers.csv", true))
+            string customerInfo = string.Join(",", customer.Name, customer.MemberId, customer.Dob.ToString("dd-MM-yyyy"),
+                                    customer.Rewards.Tier, customer.Rewards.Points, customer.Rewards.PunchCard);
+
+            // Using statement ensures that the StreamWriter is properly closed
+            try
+{
+                using (StreamWriter sw = new StreamWriter("customers.csv", true))
+                {
+                    sw.WriteLine(customerInfo);
+                }
+
+                // Display a message to indicate registration status
+                Console.WriteLine("Customer registration successful!");
+            }
+            catch (Exception ex)
             {
-                sw.WriteLine(customerInfo);
+                Console.WriteLine($"Error: {ex.Message}");
             }
 
-            // Display a message to indicate registration status
-            Console.WriteLine("Customer registration successful!");
+
             break;
 
         case "4": // NOT FINISHED
@@ -438,4 +462,6 @@ while (true)
             Console.WriteLine("Invalid option! Try again!");
             break;
     }
+
+    Console.WriteLine();
 }

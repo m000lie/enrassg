@@ -14,9 +14,9 @@ namespace assignment
 		private Order currentOrder;
 		private List<Order> orderHistory = new List<Order>();
 		private PointCard rewards;
-        private string v;
+		private string v;
 
-        public string Name
+		public string Name
 		{
 			get { return name; }
 			set { name = value; }
@@ -65,12 +65,12 @@ namespace assignment
 		// 	return order;
 		// }
 
-        public Customer()
-        {
-        }
+		public Customer()
+		{
+		}
 
 
-        public Order MakeOrder()
+		public Order MakeOrder()
 		{
 			Random rnd = new Random();
 			Order order = new Order(rnd.Next(), DateTime.Now, null, new List<IceCream>());
@@ -92,8 +92,10 @@ namespace assignment
 
 		public override string ToString()
 		{
-			return $"Name: {name}, MemberID: {memberId}, dob: {dob}, MembershipStatus: {rewards.Tier}, MembershipPoints: {rewards.Points}, PunchCard: {rewards.PunchCard}";
+			return $"Name: {name, -10} MemberID: {memberId, -10} Dob: {dob, -10:dd/MM/yyyy}" +
+				$"MembershipStatus: {rewards.Tier, -10} MembershipPoints: {rewards.Points, -10} PunchCard: {rewards.PunchCard, -5}";
 		}
 
 	}
+
 }

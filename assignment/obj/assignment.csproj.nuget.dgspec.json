@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mooolie\\Desktop\\enrassg\\assignment\\assignment.csproj": {}
+    "C:\\Users\\ethan\\Documents\\enrassg\\assignment\\assignment.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mooolie\\Desktop\\enrassg\\assignment\\assignment.csproj": {
+    "C:\\Users\\ethan\\Documents\\enrassg\\assignment\\assignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mooolie\\Desktop\\enrassg\\assignment\\assignment.csproj",
+        "projectUniqueName": "C:\\Users\\ethan\\Documents\\enrassg\\assignment\\assignment.csproj",
         "projectName": "assignment",
-        "projectPath": "C:\\Users\\mooolie\\Desktop\\enrassg\\assignment\\assignment.csproj",
-        "packagesPath": "C:\\Users\\mooolie\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mooolie\\Desktop\\enrassg\\assignment\\obj\\",
+        "projectPath": "C:\\Users\\ethan\\Documents\\enrassg\\assignment\\assignment.csproj",
+        "packagesPath": "C:\\Users\\ethan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ethan\\Documents\\enrassg\\assignment\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\mooolie\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ethan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
