@@ -45,6 +45,7 @@ List<string> ReadCustomers(string file)
                     new Cone("Cone", 2, new List<Flavour>() { new Flavour("Vanilla", false, 1) },
                         new List<Topping>() { new Topping("Sprinkles") }, false)
                 }), new List<Order>(), pc);
+            // Customer c = new Customer(marks[0], Convert.ToInt32(marks[1]), date, new Order(), new List<Order>(), pc);
             customerList.Add(c);
         }
     }
@@ -57,6 +58,7 @@ List<string> customerHeaders = ReadCustomers("customers.csv");
 // -------------------------------------------------
 // list of flavours to check if it is a premium flavour or not in ReadOrderHistory()
 List<string> flavours = new List<string> { "vanilla", "chocolate", "strawberry", "sea salt", "ube", "durian" };
+List<string> toppings = new List<string> { "sprinkles", "mochi", "sago", "oreos" };
 
 
 List<string> orderListInterim = new List<string>();
@@ -124,7 +126,7 @@ List<Order> WriteOrderHistory()
         }
 
 
-        // handle multiple orders
+        // loop through multiple orders made by same customer
         foreach (string n in multiple)
         {
             List<Flavour> tempFlavourList = new List<Flavour>();
@@ -148,7 +150,7 @@ List<Order> WriteOrderHistory()
                     }
                 }
 
-                else
+                else if (toppings.Contains(detail.ToLower()))
                 {
                     tempToppingList.Add(new Topping(detail));
                 }
@@ -195,6 +197,13 @@ List<Order> WriteOrderHistory()
 List<string> orderHeaders = ReadOrderHistory("orders.csv");
 WriteOrderHistory();
 
+// method to display current order
+void DisplayCurrentOrder(Order co)
+{
+    Console.WriteLine($"{co.Id}, {co.TimeReceived}, {co.TimeFulfilled}");
+    Console.WriteLine(co.ToString());
+}
+
 while (true)
 {
     DisplayMenu();
@@ -235,8 +244,8 @@ while (true)
             Console.Write("Enter customer member ID: ");
             int memberID = Convert.ToInt32(Console.ReadLine());
 
-            Console.Write("Enter customer date of birth (dd-mm-yyyy): ");
-            DateTime Dob = DateTime.ParseExact(Console.ReadLine(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            Console.Write("Enter customer date of birth (dd/mm/yyyy): ");
+            DateTime Dob = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             Console.WriteLine("Enter customer membership tier: ");
             string Tier = Console.ReadLine();
@@ -268,10 +277,13 @@ while (true)
 
             // Append the customer information to the customers.csv file
             string customerInfo =
-                $"{customer.Name},{customer.MemberId},{customer.Dob.ToString("dd-MM-yyyy")},{customer.Rewards}";
+                $"{customer.Name},{customer.MemberId},{customer.Dob.ToString("dd/MM/yyyy")},{customer.Rewards}";
             using (StreamWriter sw = new StreamWriter("customers.csv", true))
             {
-                sw.WriteLine(customerInfo);
+                Console.WriteLine(customerInfo);
+                sw.Write(customerInfo);
+                sw.WriteLine("fuck");
+                sw.Close();
             }
 
             // Display a message to indicate registration status
@@ -349,7 +361,7 @@ while (true)
                 // retrieve all the orders of the customer
                 List<Order> orderList = customer_inputted.OrderHistory;
                 // check if the current order is null
-                if (customer_inputted.CurrentOrder.TimeReceived.Year != 0001)
+                if (customer_inputted.CurrentOrder.TimeReceived.Year != 0001)   
                 {
                     orderList.Add(customer_inputted.CurrentOrder);
                 }
@@ -375,7 +387,7 @@ while (true)
 
             break;
 
-        case "6": // NOT DONE
+        case "6":
             // list the customer names
             foreach (Customer c in customerList)
             {
@@ -406,14 +418,16 @@ while (true)
                     {
                         case 1:
                             // choose an existing ice cream object to modify
-
                             currentOrder.ModifyIceCream(1);
+                            DisplayCurrentOrder(currentOrder);
                             break;
                         case 2:
                             currentOrder.ModifyIceCream(2);
+                            DisplayCurrentOrder(currentOrder);
                             break;
                         case 3:
                             currentOrder.ModifyIceCream(3);
+                            DisplayCurrentOrder(currentOrder);
                             break;
                         default:
                             Console.WriteLine("Invalid option! Try again!");

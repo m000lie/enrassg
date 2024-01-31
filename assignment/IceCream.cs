@@ -1,15 +1,17 @@
 ﻿// ID: S10255981, S10257966
 // Name: Rainnen, Ethan
+
 using System.Diagnostics;
 
-namespace assignment 
-{ 
+namespace assignment
+{
     abstract class IceCream
     {
         private string option;
         private int scoops;
         private List<Flavour> flavours { get; set; } = new List<Flavour>();
         private List<Topping> toppings { get; set; } = new List<Topping>();
+
         public string Option
         {
             get { return option; }
@@ -20,21 +22,25 @@ namespace assignment
         {
             get { return scoops; }
             set { scoops = value; }
-            
         }
+
         public List<Flavour> Flavours
         {
             get { return flavours; }
             set { flavours = value; }
         }
+
         public List<Topping> Toppings
         {
             get { return toppings; }
             set { toppings = value; }
         }
-        
 
-        public IceCream() { }
+
+        public IceCream()
+        {
+        }
+
         public IceCream(string option, int scoops, List<Flavour> flavours, List<Topping> toppings)
         {
             Option = option;
@@ -44,11 +50,22 @@ namespace assignment
         }
 
         public abstract double CalculatePrice();
-        
+
         public override string ToString()
         {
-            return $"Option: {Option}\nScoops: {Scoops}\nFlavours: {Flavours}\nToppings: {Toppings}";
+            string flavoursChosen = "";
+            string toppingsChosen = "";
+            foreach (Flavour flavour in Flavours)
+            {
+                flavoursChosen += $"{flavour.Type}, ";
+            }
+
+            foreach (Topping topping in Toppings)
+            {
+                toppingsChosen += $"{topping.Type}, ";
+            }
+
+            return $"Option: {Option}\nScoops: {Scoops}\nFlavours: {flavoursChosen}\nToppings: {toppingsChosen}";
         }
     }
-
 }
