@@ -253,8 +253,8 @@ while (!exitLoop)
             Console.Write("Enter customer member ID: ");
             int memberID = Convert.ToInt32(Console.ReadLine());
 
-            Console.Write("Enter customer date of birth (dd-mm-yyyy): ");
-            DateTime Dob = DateTime.ParseExact(Console.ReadLine(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            Console.Write("Enter customer date of birth (dd/mm/yyyy): ");
+            DateTime Dob = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             Console.Write("Enter customer membership tier: ");
             string tier = Console.ReadLine();
@@ -262,7 +262,7 @@ while (!exitLoop)
             Console.Write("Enter customer membership points: ");
             int points = Convert.ToInt32(Console.ReadLine());
 
-            Console.Write("Enter customer punch card:");
+            Console.Write("Enter customer punch card: ");
             int punchCard = Convert.ToInt32(Console.ReadLine());
 
             // Create a new customer object with the given information
@@ -280,12 +280,12 @@ while (!exitLoop)
             };
 
             // Append the customer information to the customers.csv file
-            string customerInfo = string.Join(",", customer.Name, customer.MemberId, customer.Dob.ToString("dd-MM-yyyy"),
+            string customerInfo = string.Join(",", customer.Name, customer.MemberId, customer.Dob.ToString("dd/MM/yyyy"),
                                     customer.Rewards.Tier, customer.Rewards.Points, customer.Rewards.PunchCard);
 
             // Using statement ensures that the StreamWriter is properly closed
-            try
-{
+            try   
+            {
                 using (StreamWriter sw = new StreamWriter("customers.csv", true))
                 {
                     sw.WriteLine(customerInfo);
@@ -303,56 +303,90 @@ while (!exitLoop)
             break;
 
         case "4": // NOT FINISHED
-            int i = 1;
-            List<Customer> customerList2 = new List<Customer>();
-            using (StreamReader sr = new StreamReader("customers.csv"))
-            {
-                string? s = sr.ReadLine(); // read the heading
-                // display the heading
-                if (s != null)
-                {
-                    string[] heading = s.Split(',');
-                    Console.WriteLine("    {0,-10}  {1,-10}   {2,-10}  {3,-10}  {4,-10}  {5,-10}",
-                        heading[0], heading[1], heading[2], heading[3], heading[4], heading[5]);
-                    // repeat until end of file
-                }
 
-                while ((s = sr.ReadLine()) != null)
-                {
-                    string[] marks = s.Split(',');
-                    PointCard pc = new PointCard(Convert.ToInt32(marks[4]), Convert.ToInt32(marks[5]), marks[3]);
-                    DateTime date = DateTime.ParseExact(marks[2], "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    //Customer c = new Customer(marks[0], Convert.ToInt32(marks[1]), Convert.ToDateTime(marks[2]), null, null, pc);
-                    Customer c = new Customer(marks[0], Convert.ToInt32(marks[1]), date, null, null, pc);
-                    customerList2.Add(c);
-                    // print details of customer
-                    Console.WriteLine("{0,0}. {1,-10}  {2,-10}   {3,-10}  {4,-16}  {5,-16}  {6,-10}",
-                        i, marks[0], marks[1], date, marks[3], marks[4], marks[5]);
-                    i++;
-                }
+            Queue<Order> GoldOrderQueue = new Queue<Order>();
+            Queue<Order> RegularOrderQueue = new Queue<Order>();
+
+            foreach (Customer c in customerList)
+            {
+                Console.WriteLine(c.ToString());
             }
 
-            Console.Write("Please select a customer:");
-            Console.WriteLine();
+            List<Customer> customerList = GetCustomerList(); // You need to define or obtain this method
 
-            string customerId = Console.ReadLine();
-
-            // Find the selected customer
-            Customer selectedCustomer = customerList2.Find(c => c.MemberId == Convert.ToInt32(customerId));
-
-            if (selectedCustomer != null)
+            // Display a list of customers for selection
+            Console.WriteLine("Select a customer:");
+            for (int i = 0; i < customerList.Count; i++)
             {
-                Console.WriteLine($"Selected customer: {selectedCustomer.Name}");
+                Console.WriteLine($"{i + 1}. {customerList[i].Name}");
+            }
 
-                // Create a new order for the selected customer
-                // Order order = new Order(selectedCustomer); <-- ethan there is something wrong with this line 
+            // Prompt the user to select a customer
+            int selectedCustomerIndex;
+            do
+            {
+                Console.Write("Enter the number of the customer: ");
+            } while (!int.TryParse(Console.ReadLine(), out selectedCustomerIndex) ||
+                     selectedCustomerIndex < 1 || selectedCustomerIndex > customerList.Count);
 
-                // Now you can add items to the order...
+            // Get the selected customer
+            Customer selectedCustomer = customerList[selectedCustomerIndex - 1];
+
+            // Create a new order object for the selected customer
+            Order order = new Order();
+
+            do
+            {
+                Console.Write("Enter ice cream option: ");
+                string option = Console.ReadLine();
+
+                Console.Write("Enter number of scoops: ");
+                int scoops = int.Parse(Console.ReadLine());
+
+                IceCream iceCream = new IceCream
+                {
+                    Option = option,
+                    Scoops = scoops
+                };
+
+                // Prompt the user to enter flavours
+                Console.Write("Enter ice cream flavours (comma-separated): ");
+                string[] flavourNames = Console.ReadLine().Split(',');
+                foreach (var flavourName in flavourNames)
+                {
+                    iceCream.Flavours.Add(new Flavour { Name = flavourName.Trim() });
+                }
+
+                // Prompt the user to enter toppings
+                Console.Write("Enter ice cream toppings (comma-separated): ");
+                string[] toppingNames = Console.ReadLine().Split(',');
+                foreach (var toppingName in toppingNames)
+                {
+                    iceCream.Toppings.Add(new Topping { Name = toppingName.Trim() });
+                }
+
+                // Add the ice cream to the order
+                order.AddIceCream(iceCream);
+
+                // Prompt the user to add another ice cream
+                Console.Write("Add another ice cream to the order? (Y/N): ");
+            } while (Console.ReadLine().Trim().ToUpper() == "Y");
+
+            // Link the new order to the customer's current order
+            selectedCustomer.AddOrder(order);
+
+            // Check customer's tier and append the order to the appropriate order queue
+            if (selectedCustomer.Rewards.Tier == "Gold")
+            {
+                GoldOrderQueue.Enqueue(order);
             }
             else
             {
-                Console.WriteLine("Customer not found.");
+                RegularOrderQueue.Enqueue(order);
             }
+
+            Console.WriteLine("Order has been made successfully!");
+
 
             break;
 
@@ -458,6 +492,61 @@ while (!exitLoop)
 
             break;
 
+        case "7":
+
+            break;
+
+        case "8":
+
+            Console.Write("Enter the year: ");
+            int inputYear;
+            if (int.TryParse(Console.ReadLine(), out inputYear))
+            {
+                List<Order> orders = GetOrders(); // Assume this method retrieves all orders
+
+                var yearlyOrders = orders.Where(o => o.TimeReceived.Year == inputYear &&  > 0).ToList();
+
+                if (yearlyOrders.Any())
+                {
+                    var monthlyBreakdown = yearlyOrders.GroupBy(o => o.Date.Month)
+                                                       .Select(g => new { Month = g.Key, TotalAmount = g.Sum(o => o.Amount) });
+
+                    decimal yearlyTotal = 0;
+
+                    foreach (var month in monthlyBreakdown)
+                    {
+                        Console.WriteLine($"{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month.Month)} {inputYear}: ${month.TotalAmount:F2}");
+                        yearlyTotal += month.TotalAmount;
+                    }
+
+                    Console.WriteLine($"Total: ${yearlyTotal:F2}");
+                }
+                else
+                {
+                    Console.WriteLine($"No fulfilled orders found for {inputYear}.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid year entered.");
+            }
+
+            static List<Order> GetAllOrders()
+            {
+                // Implement or obtain logic to get a list of orders
+                // For example, you can create and return a list of orders here
+                return new List<Order>
+            }
+
+            // Method to simulate calculating the total amount for an order
+            static decimal CalculateTotalAmount(Order order)
+            {
+                // Implement or obtain logic to calculate the total amount for an order
+                // For example, you can return a fixed amount for simplicity
+                return 20.0m;
+            }
+
+            break;
         default:
             Console.WriteLine("Invalid option! Try again!");
             break;

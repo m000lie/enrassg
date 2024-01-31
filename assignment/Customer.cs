@@ -92,7 +92,7 @@ namespace assignment
 
 		public override string ToString()
 		{
-			return $"Name: {name, -10} MemberID: {memberId, -10} Dob: {dob, -10:dd/MM/yyyy}" +
+			return $"Name: {name, -10} MemberID: {memberId, -10} Dob: {dob, -15:dd/MM/yyyy}" +
 				$"MembershipStatus: {rewards.Tier, -10} MembershipPoints: {rewards.Points, -10} PunchCard: {rewards.PunchCard, -5}";
 		}
 

@@ -44,10 +44,10 @@ namespace assignment
         }
 
         public abstract double CalculatePrice();
-        
+
         public override string ToString()
         {
-            return $"Option: {Option}\nScoops: {Scoops}\nFlavours: {Flavours}\nToppings: {Toppings}";
+            return $"Option: {Option}, Scoops: {Scoops}, Flavours: {flavours}, Toppings: {Toppings}";
         }
     }
 
