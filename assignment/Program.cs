@@ -4,7 +4,8 @@
 using assignment;
 using System.Globalization;
 
-
+string CUSTOMERS_PATH = "customers.csv";
+string ORDERS_PATH = "orders.csv";
 void DisplayMenu()
 {
     Console.WriteLine("==========================================");
@@ -14,6 +15,8 @@ void DisplayMenu()
     Console.WriteLine("[4] Create A Customers Order");
     Console.WriteLine("[5] Display Order Details Of A Customer");
     Console.WriteLine("[6] Modify Order Details");
+    Console.WriteLine("[7] Process Order");
+    Console.WriteLine("[8] Display charges breakdown");
     Console.WriteLine("==========================================");
 }
 
@@ -31,29 +34,37 @@ List<string> ReadCustomers(string file)
             heading.AddRange(s.Split(','));
         }
 
-        // repeat until end of file
-        while ((s = sr.ReadLine()) != null)
+        try
         {
-            string[] marks = s.Split(',');
-            PointCard pc = new PointCard(Convert.ToInt32(marks[4]), Convert.ToInt32(marks[5]), marks[3]);
-            DateTime date = DateTime.ParseExact(marks[2], "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            DateTime TimeReceived =
-                DateTime.ParseExact("27/10/2023 13:23", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
-            Customer c = new Customer(marks[0], Convert.ToInt32(marks[1]), date, new Order(123, TimeReceived, null,
-                new List<IceCream>()
-                {
-                    new Cone("Cone", 2, new List<Flavour>() { new Flavour("Vanilla", false, 1) },
-                        new List<Topping>() { new Topping("Sprinkles") }, false)
-                }), new List<Order>(), pc);
-            // Customer c = new Customer(marks[0], Convert.ToInt32(marks[1]), date, new Order(), new List<Order>(), pc);
-            customerList.Add(c);
+            // repeat until end of file
+            while ((s = sr.ReadLine()) != null)
+            {
+                string[] marks = s.Split(',');
+                PointCard pc = new PointCard(Convert.ToInt32(marks[4]), Convert.ToInt32(marks[5]), marks[3]);
+                DateTime date = DateTime.ParseExact(marks[2], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime TimeReceived =
+                    DateTime.ParseExact("27/10/2023 13:23", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+                Customer c = new Customer(marks[0], Convert.ToInt32(marks[1]), date, new Order(123, TimeReceived, null,
+                    new List<IceCream>()
+                    {
+                        new Cone("Cone", 2, new List<Flavour>() { new Flavour("Vanilla", false, 1) },
+                            new List<Topping>() { new Topping("Sprinkles") }, false)
+                    }), new List<Order>(), pc);
+                // Customer c = new Customer(marks[0], Convert.ToInt32(marks[1]), date, new Order(), new List<Order>(), pc);
+                customerList.Add(c);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
         }
     }
 
     return heading;
 }
 
-List<string> customerHeaders = ReadCustomers("customers.csv");
+List<string> customerHeaders = ReadCustomers(CUSTOMERS_PATH);
 
 // -------------------------------------------------
 // list of flavours to check if it is a premium flavour or not in ReadOrderHistory()
@@ -65,7 +76,7 @@ List<string> orderListInterim = new List<string>();
 Dictionary<int, string> dippedCone = new Dictionary<int, string>();
 Dictionary<int, string> waffleFlavour = new Dictionary<int, string>();
 
-// reads every record in orders.csv and stores each record in a list
+// helper method that reads every record in orders.csv and stores each record in a list
 List<string> ReadOrderHistory(string file)
 {
     List<string> heading = new List<string>();
@@ -99,7 +110,7 @@ List<string> ReadOrderHistory(string file)
 }
 
 
-// write order history to customer object 
+// helper method to write order history to customer object 
 List<Order> WriteOrderHistory()
 {
     List<Order> tempOrderList = new List<Order>();
@@ -194,14 +205,111 @@ List<Order> WriteOrderHistory()
     return tempOrderList;
 }
 
-List<string> orderHeaders = ReadOrderHistory("orders.csv");
+List<string> orderHeaders = ReadOrderHistory(ORDERS_PATH);
 WriteOrderHistory();
 
-// method to display current order
+// helper method to display current order
 void DisplayCurrentOrder(Order co)
 {
     Console.WriteLine($"{co.Id}, {co.TimeReceived}, {co.TimeFulfilled}");
     Console.WriteLine(co.ToString());
+}
+
+// create gold and regular queues
+Queue<Order> goldQueue = new Queue<Order>();
+Queue<Order> regularQueue = new Queue<Order>();
+
+
+// process order from queue
+void ProcessOrder(Queue<Order> orderQueue)
+{
+    // dequeue and assign to order object
+    Order order = orderQueue.Dequeue();
+    Console.WriteLine($"Order ID: {order.Id}");
+
+    double totalOrderSum = 0;
+    double mostExpensiveIC = 0;
+    double firstOrderSum = order.IceCreamList[0].CalculatePrice();
+
+    foreach (IceCream ic in order.IceCreamList)
+    {
+        Console.WriteLine(ic.ToString());
+        totalOrderSum += ic.CalculatePrice();
+        if (ic.CalculatePrice() > mostExpensiveIC)
+        {
+            mostExpensiveIC = ic.CalculatePrice();
+        }
+    }
+
+    Console.WriteLine($"Total: ${totalOrderSum}");
+
+    // display membership status & points of the customer
+    Customer customerCheckOut = customerList.Find(c => c.CurrentOrder.Id == order.Id);
+    Console.WriteLine($"Customer: {customerCheckOut.Name}");
+    Console.WriteLine($"Membership Tier: {customerCheckOut.Rewards.Tier}");
+    Console.WriteLine($"Membership Points: {customerCheckOut.Rewards.Points}");
+
+    if (customerCheckOut.IsBirthday())
+    {
+        totalOrderSum -= mostExpensiveIC;
+    }
+
+    // check if customer has completed punch card = 10
+    if (customerCheckOut.Rewards.PunchCard == 10)
+    {
+        totalOrderSum -= firstOrderSum;
+        customerCheckOut.Rewards.PunchCard = 0;
+    }
+
+    Console.WriteLine("======================");
+    Console.WriteLine(order.ToString());
+
+    // check if customer is allowed to redeem points 
+    if (customerCheckOut.Rewards.Tier != "Ordinary")
+    {
+        Console.Write("How many points would you like to redeem?: ");
+        int redeem = Convert.ToInt32(Console.ReadLine());
+        if (redeem <= customerCheckOut.Rewards.Points)
+        {
+            customerCheckOut.Rewards.Points -= redeem;
+            totalOrderSum -= (0.02 * redeem);
+        }
+        else
+        {
+            Console.WriteLine("Not enough points!");
+        }
+    }
+
+    Console.WriteLine($"FINAL BILL: {totalOrderSum:F2}");
+    Console.WriteLine("(Press any key to make payment)");
+    Console.ReadKey();
+    // 1 ice cream = 1 order
+    customerCheckOut.Rewards.PunchCard += order.IceCreamList.Count;
+
+    if (customerCheckOut.Rewards.PunchCard % 10 != 0 && customerCheckOut.Rewards.PunchCard > 10)
+    {
+        // get decimal portion of the number and set it as the punchcard value
+        // e.g. 25 -> 25/10 = 2.5 -> (2.5 % 1) * 10 = 5 -> 5 is the punchcard value
+        // e.g. 38 -> 38/10 = 3.8 -> (3.8 % 1) * 10 = 8 -> 8 is the punchcard value
+        // do this because everytime we hit 10 we reset
+        customerCheckOut.Rewards.PunchCard = ((customerCheckOut.Rewards.PunchCard / 10) % 1) * 10;
+    }
+
+    // get number of points earned and cast it to int in order to round down before adding
+    customerCheckOut.Rewards.Points += (int)(totalOrderSum * .72);
+    // check if customer is eligible for upgrade
+    if (customerCheckOut.Rewards.Points >= 50 && customerCheckOut.Rewards.Tier != "Gold")
+    {
+        customerCheckOut.Rewards.Tier = "Silver";
+    }
+    else if (customerCheckOut.Rewards.Points >= 100)
+    {
+        customerCheckOut.Rewards.Tier = "Gold";
+    }
+
+    Console.WriteLine($"Order {order.Id} has been processed!");
+    order.TimeFulfilled = DateTime.Now;
+    customerCheckOut.OrderHistory.Add(order);
 }
 
 while (true)
@@ -233,7 +341,15 @@ while (true)
             break;
 
         case "2":
+            foreach (Order o in regularQueue)
+            {
+                Console.WriteLine(o.ToString());
+            }
 
+            foreach (Order o in goldQueue)
+            {
+                Console.WriteLine(o.ToString());
+            }
 
             break;
 
@@ -243,103 +359,148 @@ while (true)
 
             Console.Write("Enter customer member ID: ");
             int memberID = Convert.ToInt32(Console.ReadLine());
+            DateTime Dob;
+            try
+            {
+                Console.Write("Enter customer date of birth (dd/mm/yyyy): ");
+                Dob = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Invalid date format!");
+                break;
+            }
 
-            Console.Write("Enter customer date of birth (dd/mm/yyyy): ");
-            DateTime Dob = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            string tier;
+            try
+            {
+                Console.Write("Enter customer membership tier: ");
+                tier  = Console.ReadLine();
+                if (tier != "Gold" && tier != "Silver" && tier != "Ordinary")
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Invalid tier!");
+                break;
+            }
 
-            Console.WriteLine("Enter customer membership tier: ");
-            string Tier = Console.ReadLine();
-
-            Console.WriteLine("Enter customer membership points: ");
-            int Points = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Enter customer membership points: ");
+            int points = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine("Enter customer punchcard:");
-            int PunchCard = Convert.ToInt32(Console.ReadLine());
+            int punchCard = Convert.ToInt32(Console.ReadLine());
 
-            // Create a new customer object with the given information
-            Customer customer = new Customer
-            {
-                Name = name,
-                MemberId = memberID,
-                Dob = Dob
-            };
 
             // Create a new PointCard object
             PointCard pointCard = new PointCard
             {
-                Tier = Tier,
-                Points = Points,
-                PunchCard = PunchCard,
+                Tier = tier,
+                Points = points,
+                PunchCard = punchCard,
             };
+            // Create a new customer object with the given information
+            Customer customer = new Customer(name, memberID, Dob, null, new List<Order>(), pointCard);
 
-            // Assign the PointCard object to the customer
-            customer.Rewards = pointCard;
 
             // Append the customer information to the customers.csv file
             string customerInfo =
-                $"{customer.Name},{customer.MemberId},{customer.Dob.ToString("dd/MM/yyyy")},{customer.Rewards}";
-            using (StreamWriter sw = new StreamWriter("customers.csv", true))
-            {
-                Console.WriteLine(customerInfo);
-                sw.Write(customerInfo);
-                sw.WriteLine("fuck");
-                sw.Close();
-            }
+                $"{customer.Name},{customer.MemberId},{customer.Dob.ToString("dd/MM/yyyy")},{customer.Rewards}\n";
+
+            // append to customer list
+            customerList.Add(customer);
+            
+            File.AppendAllText(CUSTOMERS_PATH, customerInfo);
+            
+            // using (StreamWriter sw = new StreamWriter("customers.csv", true))
+            //     
+            // {
+            //     var writer = new csvwriter(sw);
+            //     Console.WriteLine(customerInfo);
+            //     sw.Write(customerInfo);
+            //     sw.Close();
+            // }
 
             // Display a message to indicate registration status
             Console.WriteLine("Customer registration successful!");
             break;
 
-        case "4": // NOT FINISHED
-            int i = 1;
-            List<Customer> customerList2 = new List<Customer>();
-            using (StreamReader sr = new StreamReader("customers.csv"))
+        case "4":
+            // errorStatus of new ice cream creation
+            bool errorStatus = false;
+            // list customer
+            foreach (Customer c in customerList)
             {
-                string? s = sr.ReadLine(); // read the heading
-                // display the heading
-                if (s != null)
-                {
-                    string[] heading = s.Split(',');
-                    Console.WriteLine("    {0,-10}  {1,-10}   {2,-10}  {3,-10}  {4,-10}  {5,-10}",
-                        heading[0], heading[1], heading[2], heading[3], heading[4], heading[5]);
-                    // repeat until end of file
-                }
-
-                while ((s = sr.ReadLine()) != null)
-                {
-                    string[] marks = s.Split(',');
-                    PointCard pc = new PointCard(Convert.ToInt32(marks[4]), Convert.ToInt32(marks[5]), marks[3]);
-                    DateTime date = DateTime.ParseExact(marks[2], "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    //Customer c = new Customer(marks[0], Convert.ToInt32(marks[1]), Convert.ToDateTime(marks[2]), null, null, pc);
-                    Customer c = new Customer(marks[0], Convert.ToInt32(marks[1]), date, null, null, pc);
-                    customerList2.Add(c);
-                    // print details of customer
-                    Console.WriteLine("{0,0}. {1,-10}  {2,-10}   {3,-10}  {4,-16}  {5,-16}  {6,-10}",
-                        i, marks[0], marks[1], date, marks[3], marks[4], marks[5]);
-                    i++;
-                }
+                Console.WriteLine(c.ToString());
             }
 
-            Console.Write("Please select a customer:");
-            Console.WriteLine();
+            // prompt user to select a customer
+            Console.Write("Enter a customer name: ");
+            string chosenCustomer4 = Console.ReadLine();
 
-            string customerId = Console.ReadLine();
-
-            // Find the selected customer
-            Customer selectedCustomer = customerList2.Find(c => c.MemberId == Convert.ToInt32(customerId));
-
-            if (selectedCustomer != null)
+            try
             {
-                Console.WriteLine($"Selected customer: {selectedCustomer.Name}");
+                Customer customer_inputted = customerList.Find(c => c.Name == chosenCustomer4);
+                // check if customer is valid
+                // assigning name property to variable makes a call, if it is null, it will throw an error
+                string checkValidity = customer_inputted.Name;
+                List<IceCream> newOrderICList = new List<IceCream>();
+                // create order object
+                Order newOrder = new Order(new Random().Next(), DateTime.Now, null, newOrderICList);
+                // user option controls if the user would like to make a new order or not
+                bool userOption = false;
+                // prompt user to enter new ice cream order
+                do
+                {
+                    // always reset userOption to false so that if the user just presses enter below, it will default to no
+                    userOption = false;
+                    try
+                    {
+                        IceCream userIceCream = newOrder.newIceCream();
+                        newOrderICList.Add(userIceCream);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Invalid option! Try again!");
+                        errorStatus = true;
+                        break;
+                    }
 
-                // Create a new order for the selected customer
-                // Order order = new Order(selectedCustomer); <-- ethan there is something wrong with this line 
 
-                // Now you can add items to the order...
+                    Console.Write("Would you like to add another ice cream? (y/N): ");
+                    string anotherIC = Console.ReadLine();
+                    if (anotherIC == "y")
+                    {
+                        userOption = true;
+                    }
+                } while (userOption);
+
+                if (errorStatus)
+                {
+                    // restart order creation
+                    Console.WriteLine("Error has occured. Please restart order creation.");
+                    break;
+                }
+
+                newOrder.IceCreamList = newOrderICList;
+                customer_inputted.CurrentOrder = newOrder;
+
+                if (customer_inputted.Rewards.Tier == "Gold")
+                {
+                    goldQueue.Enqueue(newOrder);
+                    Console.WriteLine("Order has been made successfully!");
+                }
+                else
+                {
+                    regularQueue.Enqueue(newOrder);
+                    Console.WriteLine("Order has been made successfully!");
+                }
             }
-            else
+            catch (NullReferenceException)
             {
-                Console.WriteLine("Customer not found.");
+                Console.WriteLine("Customer not found!");
             }
 
             break;
@@ -361,7 +522,7 @@ while (true)
                 // retrieve all the orders of the customer
                 List<Order> orderList = customer_inputted.OrderHistory;
                 // check if the current order is null
-                if (customer_inputted.CurrentOrder.TimeReceived.Year != 0001)   
+                if (customer_inputted.CurrentOrder.TimeReceived.Year != 0001)
                 {
                     orderList.Add(customer_inputted.CurrentOrder);
                 }
@@ -381,7 +542,6 @@ while (true)
             catch (NullReferenceException)
             {
                 Console.WriteLine("Customer not found!");
-                break;
             }
 
 
@@ -448,6 +608,85 @@ while (true)
 
             break;
 
+        case "7":
+            Console.WriteLine("Process Order");
+            Console.WriteLine("==============");
+            // check if gold queue is empty, if it is, then process regular queue
+            if (goldQueue.Count == 0)
+            {
+                // check if regular queue is empty, if it is, then print no orders
+                if (regularQueue.Count == 0)
+                {
+                    Console.WriteLine("No orders to process!");
+                    break;
+                }
+
+                // process order
+                ProcessOrder(regularQueue);
+            }
+            else
+            {
+                ProcessOrder(goldQueue);
+            }
+
+            break;
+        case "8":
+            void DisplayMonthlyChargedAmounts(int year)
+            {
+                Dictionary<int, double> monthlyAmounts = new Dictionary<int, double>();
+
+                // Loop through fulfilled orders for the inputted year
+                foreach (Customer customer in customerList)
+                {
+                    foreach (Order order in customer.OrderHistory)
+                    {
+                        if (order.TimeReceived.Year == year)
+                        {
+                            int month = order.TimeReceived.Month;
+                            double orderAmount = 0;
+
+                            // Calculate the total amount for the order
+                            foreach (IceCream iceCream in order.IceCreamList)
+                            {
+                                orderAmount += iceCream.CalculatePrice();
+                            }
+
+                            // Add the order amount to the monthly total
+                            if (monthlyAmounts.ContainsKey(month))
+                            {
+                                monthlyAmounts[month] += orderAmount;
+                            }
+                            else
+                            {
+                                monthlyAmounts.Add(month, orderAmount);
+                            }
+                        }
+                    }
+                }
+
+                List<string> months = new List<string>{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+                int i = 0;
+
+                // Display the monthly charged amounts breakdown
+                foreach (var kvp in monthlyAmounts)
+                {
+                    Console.WriteLine($"{months[kvp.Key]} {year}: ${kvp.Value}");
+                    i++;
+                }
+
+                // Calculate and display the total charged amount for the year
+                double totalAmount = monthlyAmounts.Values.Sum();
+                Console.WriteLine("Total Charged Amount for Year {0}: ${1}", year, totalAmount);
+            }
+
+            // Prompt the user for the year
+            Console.Write("Enter the year: ");
+            int inputYear = Convert.ToInt32(Console.ReadLine());
+
+            // Display monthly charged amounts breakdown
+            DisplayMonthlyChargedAmounts(inputYear);
+
+            break;
         default:
             Console.WriteLine("Invalid option! Try again!");
             break;

@@ -57,19 +57,16 @@ namespace assignment
 			Rewards = rewards;
 		}
 
-
-		// public Order MakeOrder()
-		// {
-		// 	Random rnd = new Random();
-		// 	Order order = new Order(rnd.Next(), DateTime.Now);
-		// 	return order;
-		// }
+		
 
         public Customer()
         {
         }
 
-
+		// create a blank order
+		// the actual order creation method is in Order.cs(newIceCream()). 
+		// we felt that it was more appropriate to put it there as it's functionality is utilized by many of it's methods. 
+		// if we implement it here, we would to duplicate our code and that would violate the principal of DRY (Don't Repeat Yourself)
         public Order MakeOrder()
 		{
 			Random rnd = new Random();

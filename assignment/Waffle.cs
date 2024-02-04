@@ -50,7 +50,7 @@ internal class Waffle : IceCream
         sum += 1 * Toppings.Count;
         
         // waffle flavour
-        if (WaffleFlavour != "NA")
+        if (WaffleFlavour != null)
         {
             sum += 3;
         }
